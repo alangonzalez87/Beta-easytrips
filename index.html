@@ -7,6 +7,13 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "wwpxupgobo");
+</script>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
@@ -731,6 +738,14 @@ document.getElementById('reg-form').addEventListener('submit', async function(e)
     });
 
     // Si fetch no lanza error consideramos envío exitoso
+    const successTitle = selectedAttend === 'yes'
+      ? '🚀 Gracias por registrarte.'
+      : '✨ Gracias por registrarte.';
+
+    const successText = selectedAttend === 'yes'
+      ? 'Tu lugar quedó reservado para el lanzamiento en vivo del 5 de junio a las 16hs. Te esperamos.'
+      : 'Sabemos que no podés asistir al lanzamiento en vivo, pero te vamos a tener en cuenta para la próxima apertura de beta y nuevas demostraciones dentro de los próximos 15 días 🚀';
+
     try { formEl.reset(); } catch (err) { /* ignore */ }
     selectedAttend = '';
     document.querySelectorAll('.radio-opt').forEach(o => o.classList.remove('selected'));
@@ -739,9 +754,8 @@ document.getElementById('reg-form').addEventListener('submit', async function(e)
     fc.innerHTML = `
       <div class="success-box">
         <div class="success-icon">✓</div>
-        <div class="success-h">Listo.</div>
-        <p class="success-p">Te esperamos el <strong>5 de junio a las 16hs</strong>.</p>
-        <p class="success-sub">Revisá tu mail para los detalles del evento.</p>
+        <div class="success-h">${successTitle}</div>
+        <p class="success-p">${successText}</p>
       </div>`;
   } catch (err) {
     console.error('Error enviando formulario:', err);
