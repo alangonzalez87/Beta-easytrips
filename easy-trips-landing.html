@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Easy Trips — Beta Privada · 5 de Junio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --navy:      #0A1628;
+    --navy-l:    #0F1E38;
+    --navy-m:    #142244;
+    --gold:      #C9A84C;
+    --gold-lt:   #E2C46E;
+    --gold-pale: rgba(201,168,76,.08);
+    --cream:     #FAFAF7;
+    --cream-d:   #F0EDE6;
+    --border:    #E5DDD0;
+    --text:      #374151;
+    --sub:       #8B9DBB;
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--cream);
+    color: var(--navy);
+    -webkit-font-smoothing: antialiased;
+  }
+  .serif { font-family: 'Playfair Display', serif; }
+  ::-webkit-scrollbar { width: 5px; }
+  ::-webkit-scrollbar-track { background: var(--navy); }
+  ::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 3px; }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    height: 60px; display: flex; align-items: center; justify-content: space-between;
+    padding: 0 32px;
+    background: rgba(10,22,40,.96);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(201,168,76,.15);
+  }
+  .nav-logo { font-family: 'Playfair Display', serif; font-size: 20px; color: #fff; font-weight: 600; }
+  .nav-logo span { color: var(--gold); }
+  .nav-badge {
+    background: rgba(201,168,76,.12); border: 1px solid rgba(201,168,76,.35);
+    border-radius: 20px; padding: 4px 14px;
+    font-size: 12px; color: var(--gold); font-weight: 500; letter-spacing: .04em;
+  }
+
+  /* ── HERO ── */
+  #hero {
+    background: linear-gradient(155deg, var(--navy) 0%, #0F1E38 55%, #142244 100%);
+    padding: 140px 24px 90px;
+    display: flex; flex-direction: column; align-items: center; text-align: center;
+    min-height: 100vh; justify-content: center;
+    position: relative; overflow: hidden;
+  }
+  #hero::before {
+    content: '';
+    position: absolute; top: 10%; left: 50%; transform: translateX(-50%);
+    width: 700px; height: 700px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(201,168,76,.07) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-eyebrow { font-size: 11px; color: var(--gold); letter-spacing: .22em; text-transform: uppercase; margin-bottom: 24px; font-weight: 500; position: relative; }
+  .hero-h1 { font-family: 'Playfair Display', serif; font-size: clamp(32px,5vw,58px); color: #fff; line-height: 1.18; font-weight: 600; margin-bottom: 22px; position: relative; max-width: 700px; }
+  .hero-h1 em { color: var(--gold); font-style: italic; }
+  .hero-sub { font-size: 17px; color: var(--sub); line-height: 1.75; margin-bottom: 42px; max-width: 570px; position: relative; }
+  .hero-sub strong { color: #fff; }
+
+  /* countdown */
+  .cd-wrap {
+    display: inline-flex; align-items: center;
+    background: rgba(255,255,255,.04); border: 1px solid rgba(201,168,76,.22);
+    border-radius: 14px; padding: 22px 36px; margin-bottom: 40px;
+    position: relative; gap: 0;
+  }
+  .cd-unit { text-align: center; min-width: 64px; }
+  .cd-num { font-size: 42px; font-weight: 600; color: var(--gold); line-height: 1; letter-spacing: -.02em; transition: opacity .15s; }
+  .cd-lbl { font-size: 10px; color: var(--sub); margin-top: 6px; text-transform: uppercase; letter-spacing: .12em; font-weight: 500; }
+  .cd-sep { font-size: 28px; color: var(--gold); font-weight: 300; margin-bottom: 16px; opacity: .5; padding: 0 2px; }
+
+  .cd-wrap-sm {
+    display: inline-flex; align-items: center;
+    background: var(--navy); border: 1px solid rgba(201,168,76,.25);
+    border-radius: 10px; padding: 14px 22px; gap: 0;
+  }
+  .cd-wrap-sm .cd-unit { min-width: 44px; }
+  .cd-wrap-sm .cd-num { font-size: 28px; }
+  .cd-wrap-sm .cd-sep { font-size: 18px; margin-bottom: 12px; }
+
+  /* cta button */
+  .btn-gold {
+    background: var(--gold); color: var(--navy); border: none; border-radius: 8px;
+    padding: 16px 36px; font-size: 16px; font-weight: 600;
+    font-family: 'Inter', sans-serif; cursor: pointer;
+    letter-spacing: .01em; position: relative;
+    box-shadow: 0 4px 24px rgba(201,168,76,.35);
+    transition: background .2s, transform .15s, box-shadow .2s;
+    text-decoration: none; display: inline-block;
+  }
+  .btn-gold:hover { background: var(--gold-lt); transform: translateY(-2px); box-shadow: 0 8px 32px rgba(201,168,76,.45); }
+  .hero-note { font-size: 13px; color: #4A5B73; letter-spacing: .03em; margin-top: 14px; position: relative; }
+
+  /* ── CREDIBILIDAD ── */
+  #credibilidad {
+    background: var(--cream-d);
+    padding: 28px 24px;
+    text-align: center;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+  #credibilidad p { font-size: 15px; color: var(--text); max-width: 600px; margin: 0 auto; font-style: italic; line-height: 1.65; }
+
+  /* ── SECCIONES GENÉRICAS ── */
+  section { padding: 72px 24px; }
+  .section-inner { max-width: 960px; margin: 0 auto; }
+  .section-eyebrow { font-size: 11px; color: var(--gold); letter-spacing: .22em; text-transform: uppercase; margin-bottom: 12px; font-weight: 500; text-align: center; }
+  .section-h2 { font-family: 'Playfair Display', serif; font-size: clamp(26px,4vw,40px); color: var(--navy); margin-bottom: 48px; font-weight: 600; text-align: center; }
+
+  /* ── PROBLEMA ── */
+  #problema { background: var(--cream); }
+  .cards-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; }
+  .prob-card {
+    background: #fff; border: 1px solid #E8E4DC; border-radius: 12px; padding: 28px 24px;
+    position: relative; overflow: hidden;
+  }
+  .prob-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    background: linear-gradient(90deg, var(--gold), transparent);
+  }
+  .prob-icon { margin-bottom: 16px; }
+  .prob-icon svg { color: var(--gold); }
+  .prob-card p { font-size: 15px; color: var(--text); line-height: 1.65; }
+
+  /* ── SOLUCIÓN ── */
+  #solucion { background: #fff; }
+  .sol-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 48px; align-items: center; margin-bottom: 60px; }
+  .sol-text p { font-size: 17px; color: var(--text); line-height: 1.75; margin-bottom: 18px; }
+  .sol-text p:last-child { margin-bottom: 0; }
+  .sol-text strong { color: var(--navy); }
+  .sol-divider { border-top: 1px solid #F0EDE6; padding-top: 48px; }
+  .sol-divider p { font-size: 16px; color: var(--text); font-weight: 500; margin-bottom: 28px; }
+
+  /* product mockup */
+  .mock-shell {
+    background: #F8F6F2; border-radius: 14px; padding: 12px;
+    box-shadow: 0 8px 40px rgba(10,22,40,.18), 0 2px 8px rgba(10,22,40,.08);
+    border: 1px solid #E5DDD0;
+  }
+  .mock-chrome {
+    background: #EBE8E2; border-radius: 8px; padding: 8px 12px; margin-bottom: 10px;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+  .dot-r { background: #FF5F57; }
+  .dot-y { background: #FEBC2E; }
+  .dot-g { background: #28C840; }
+  .mock-bar { margin-left: 10px; background: #fff; border-radius: 4px; padding: 3px 12px; font-size: 11px; color: #6B7280; flex-grow: 1; }
+  .mock-body { display: flex; gap: 10px; height: 268px; }
+  .mock-left {
+    width: 42%; background: #fff; border-radius: 8px; padding: 12px;
+    border: 1px solid #E8E4DC; overflow: hidden;
+  }
+  .mock-left-title { font-size: 11px; font-weight: 600; color: var(--navy); margin-bottom: 2px; }
+  .mock-left-sub { font-size: 13px; font-weight: 600; color: var(--gold); margin-bottom: 10px; }
+  .day-row {
+    display: flex; align-items: center; gap: 8px;
+    padding: 6px 8px; border-radius: 6px; margin-bottom: 4px;
+    background: var(--cream); border: 1px solid #F0EBE2;
+  }
+  .day-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--gold); flex-shrink: 0; }
+  .day-label { font-size: 9px; color: #9CA3AF; text-transform: uppercase; letter-spacing: .08em; }
+  .day-name { font-size: 11px; color: var(--navy); font-weight: 500; }
+  .mock-add { font-size: 10px; color: var(--gold); margin-top: 8px; font-weight: 500; cursor: pointer; }
+  .mock-right { flex: 1; background: var(--navy); border-radius: 8px; overflow: hidden; position: relative; }
+  .mock-right-head {
+    background: linear-gradient(135deg, #0F1E38, #1a3060); padding: 14px;
+    border-bottom: 1px solid rgba(201,168,76,.2);
+  }
+  .mock-eyebrow { font-size: 9px; color: var(--gold); text-transform: uppercase; letter-spacing: .12em; margin-bottom: 2px; }
+  .mock-title { font-size: 15px; color: #fff; font-family: serif; font-weight: 600; }
+  .mock-meta { font-size: 10px; color: var(--sub); margin-top: 2px; }
+  .mock-days { padding: 10px; overflow: hidden; }
+  .mock-day-card {
+    background: rgba(255,255,255,.05); border-radius: 6px; padding: 7px 10px; margin-bottom: 6px;
+    display: flex; gap: 8px; align-items: flex-start;
+    border: 1px solid rgba(201,168,76,.10);
+  }
+  .mock-day-icon { font-size: 14px; flex-shrink: 0; }
+  .mock-day-lbl { font-size: 9px; color: var(--gold); text-transform: uppercase; letter-spacing: .08em; }
+  .mock-day-text { font-size: 10px; color: #CBD5E1; line-height: 1.4; }
+  .mock-price-bar {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    background: rgba(201,168,76,.12); border-top: 1px solid rgba(201,168,76,.25);
+    padding: 8px 14px; display: flex; justify-content: space-between; align-items: center;
+  }
+  .mock-price-lbl { font-size: 10px; color: var(--sub); }
+  .mock-price-val { font-size: 14px; color: var(--gold); font-weight: 600; }
+
+  /* kanban */
+  .kanban-shell {
+    background: #F8F6F2; border-radius: 14px; padding: 16px;
+    box-shadow: 0 6px 32px rgba(10,22,40,.10); border: 1px solid #E5DDD0;
+  }
+  .kanban-chrome { background: #EBE8E2; border-radius: 8px; padding: 7px 12px; margin-bottom: 14px; display: flex; align-items: center; gap: 6px; }
+  .kanban-chrome span { font-size: 11px; color: #9CA3AF; margin-left: 8px; }
+  .kanban-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  .kb-col-head { display: flex; align-items: center; gap: 6px; margin-bottom: 8px; }
+  .kb-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .kb-title { font-size: 11px; font-weight: 600; color: #374151; }
+  .kb-count { margin-left: auto; font-size: 10px; color: #9CA3AF; background: #F3F4F6; border-radius: 10px; padding: 1px 7px; }
+  .kb-card {
+    background: #fff; border: 1px solid #E8E0D0; border-radius: 8px;
+    padding: 9px 11px; margin-bottom: 7px;
+    box-shadow: 0 1px 4px rgba(10,22,40,.05);
+    transition: transform .15s, box-shadow .15s;
+  }
+  .kb-card:hover { transform: translateY(-1px); box-shadow: 0 4px 14px rgba(10,22,40,.10); }
+  .kb-card-inner { display: flex; align-items: center; gap: 8px; }
+  .kb-avatar { width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 700; flex-shrink: 0; }
+  .kb-name { font-weight: 600; color: var(--navy); font-size: 12px; }
+  .kb-trip { color: #9CA3AF; font-size: 10px; }
+  .kb-add { border: 1.5px dashed #E5DDD0; border-radius: 8px; padding: 7px; font-size: 11px; color: var(--gold); text-align: center; cursor: pointer; margin-top: 2px; }
+
+  /* ── BETA INCLUYE ── */
+  #beta { background: var(--navy); }
+  #beta .section-eyebrow { color: var(--gold); }
+  #beta .section-h2 { color: #fff; }
+  .beta-list { display: flex; flex-direction: column; gap: 14px; max-width: 440px; margin: 0 auto; }
+  .beta-item { display: flex; align-items: flex-start; gap: 14px; }
+  .beta-check {
+    width: 22px; height: 22px; border-radius: 50%; flex-shrink: 0;
+    background: rgba(201,168,76,.15); border: 1.5px solid var(--gold);
+    display: flex; align-items: center; justify-content: center; margin-top: 2px;
+  }
+  .beta-item span { font-size: 16px; color: #CBD5E1; line-height: 1.5; }
+
+  /* ── BUSCAMOS ── */
+  #buscamos { background: var(--cream); }
+  .fit-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 22px; }
+  .fit-card { background: #fff; border-radius: 12px; padding: 28px 24px; }
+  .fit-card-yes { border: 1px solid #D1FAE5; }
+  .fit-card-no  { border: 1px solid #FEE2E2; }
+  .fit-head { display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 600; letter-spacing: .08em; margin-bottom: 18px; }
+  .fit-head-yes { color: #10B981; }
+  .fit-head-no  { color: #EF4444; }
+  .fit-icon { width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .fit-icon-yes { background: #10B981; }
+  .fit-icon-no  { background: #EF4444; }
+  .fit-row { display: flex; gap: 10px; margin-bottom: 12px; align-items: flex-start; }
+  .fit-check { flex-shrink: 0; margin-top: 2px; }
+  .fit-row span { font-size: 15px; color: var(--text); line-height: 1.5; }
+
+  /* ── FORM ── */
+  #registro { background: var(--cream-d); border-top: 1px solid var(--border); }
+  .form-box { background: #fff; border: 1px solid #E8E4DC; border-radius: 14px; padding: 36px 32px; box-shadow: 0 4px 24px rgba(10,22,40,.06); max-width: 520px; margin: 0 auto; }
+  .form-group { margin-bottom: 18px; }
+  .form-label { display: block; font-size: 13px; font-weight: 500; color: var(--text); margin-bottom: 6px; }
+  .form-input {
+    width: 100%; padding: 12px 16px; background: #fff;
+    border: 1.5px solid #E2D9C8; border-radius: 6px;
+    font-family: 'Inter', sans-serif; font-size: 15px; color: var(--navy);
+    outline: none; transition: border-color .2s, box-shadow .2s;
+  }
+  .form-input:focus { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(201,168,76,.12); }
+  .form-input::placeholder { color: #9CA3AF; }
+  .form-input.error { border-color: #EF4444; }
+  select.form-input {
+    appearance: none; -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23C9A84C' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: right 14px center; background-color: #fff;
+    padding-right: 40px; cursor: pointer;
+  }
+  .form-error { font-size: 12px; color: #EF4444; margin-top: 4px; }
+  .radio-group { display: flex; flex-direction: column; gap: 10px; }
+  .radio-opt {
+    display: flex; align-items: center; gap: 10px; cursor: pointer;
+    padding: 10px 14px; border-radius: 8px; border: 1.5px solid #E2D9C8;
+    background: #fff; transition: all .15s; user-select: none;
+  }
+  .radio-opt.selected { border-color: var(--gold); background: rgba(201,168,76,.06); }
+  .radio-circle {
+    width: 18px; height: 18px; border-radius: 50%; border: 2px solid #D1D5DB;
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    transition: border-color .15s;
+  }
+  .radio-opt.selected .radio-circle { border-color: var(--gold); }
+  .radio-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--gold); display: none; }
+  .radio-opt.selected .radio-dot { display: block; }
+  .radio-opt span { font-size: 14px; color: var(--text); }
+  .form-subtitle { text-align: center; font-size: 16px; color: var(--text); margin-bottom: 36px; }
+  .form-note { text-align: center; font-size: 13px; color: #9CA3AF; margin-top: 12px; }
+
+  /* success */
+  .success-box { background: #fff; border: 2px solid var(--gold); border-radius: 12px; padding: 44px 32px; text-align: center; max-width: 460px; margin: 0 auto; }
+  .success-icon { width: 56px; height: 56px; border-radius: 50%; background: rgba(201,168,76,.12); border: 2px solid var(--gold); display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; font-size: 22px; color: var(--gold); }
+  .success-h { font-family: 'Playfair Display', serif; font-size: 26px; color: var(--navy); margin-bottom: 12px; font-weight: 600; }
+  .success-p { font-size: 16px; color: var(--text); line-height: 1.6; }
+  .success-sub { font-size: 14px; color: #9CA3AF; margin-top: 8px; }
+
+  /* ── FOOTER ── */
+  footer { background: var(--navy); border-top: 1px solid rgba(201,168,76,.15); padding: 32px 24px; text-align: center; }
+  .footer-logo { font-family: 'Playfair Display', serif; font-size: 22px; color: #fff; font-weight: 600; margin-bottom: 6px; }
+  .footer-logo span { color: var(--gold); }
+  .footer-tag { font-size: 14px; color: #4A5B73; font-style: italic; margin-bottom: 4px; }
+  .footer-note { font-size: 12px; color: #2D3E55; letter-spacing: .05em; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 640px) {
+    nav { padding: 0 16px; }
+    .cd-wrap { padding: 16px 18px; }
+    .cd-unit { min-width: 48px; }
+    .cd-num { font-size: 32px; }
+    .kanban-grid { grid-template-columns: repeat(2, 1fr); }
+    .form-box { padding: 24px 18px; }
+    section { padding: 52px 16px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Easy<span>Trips</span></div>
+  <div class="nav-badge">Beta Privada · 5 de Junio</div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <p class="hero-eyebrow">Lanzamiento · Beta 2026</p>
+  <h1 class="hero-h1">
+    Tus clientes merecen una propuesta<br>
+    <em>que los enamore</em> antes de llegar.
+  </h1>
+  <p class="hero-sub">
+    Easy Trips es la herramienta que los agentes de viajes usan para crear itinerarios
+    y propuestas que se ven increíbles, en minutos. Estamos abriendo
+    <strong>5 lugares en nuestra beta.</strong>
+  </p>
+
+  <div class="cd-wrap" id="cd-hero"></div>
+
+  <a href="#registro" class="btn-gold">Quiero mi lugar en la beta</a>
+  <p class="hero-note">Viernes 5 de junio · 16:00 hs Argentina · Evento en vivo</p>
+</section>
+
+<!-- CREDIBILIDAD -->
+<div id="credibilidad">
+  <p>"Agentes de viajes ya están usando Easy Trips para cerrar propuestas que antes les llevaban horas."</p>
+</div>
+
+<!-- PROBLEMA -->
+<section id="problema">
+  <div class="section-inner">
+    <p class="section-eyebrow">El problema</p>
+    <h2 class="section-h2">Si sos agente de viajes, reconocés esto</h2>
+    <div class="cards-3">
+      <div class="prob-card">
+        <div class="prob-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/>
+            <line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>
+          </svg>
+        </div>
+        <p>Propuestas en Word o PDF genérico que no reflejan tu marca ni el precio del viaje que estás vendiendo.</p>
+      </div>
+      <div class="prob-card">
+        <div class="prob-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/>
+          </svg>
+        </div>
+        <p>Seguimiento de clientes en planillas que no escalan ni te avisan cuándo hay que dar seguimiento.</p>
+      </div>
+      <div class="prob-card">
+        <div class="prob-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/>
+          </svg>
+        </div>
+        <p>Horas invertidas en armar cada propuesta desde cero, en lugar de estar cerrando ventas.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SOLUCIÓN -->
+<section id="solucion" style="background:#fff">
+  <div class="section-inner">
+    <p class="section-eyebrow">La solución</p>
+    <h2 class="section-h2">Easy Trips hace una cosa, y la hace muy bien</h2>
+
+    <div class="sol-grid">
+      <div class="sol-text">
+        <p>Armás el itinerario en la plataforma. Tu cliente recibe un link con una propuesta web, con tu marca, con fotos, con precios, con los días organizados. <strong>En dos minutos.</strong></p>
+        <p>Y todo queda guardado: el cliente, la propuesta, el estado de la venta.</p>
+      </div>
+
+      <!-- Product mockup -->
+      <div class="mock-shell">
+        <div class="mock-chrome">
+          <span class="dot dot-r"></span><span class="dot dot-y"></span><span class="dot dot-g"></span>
+          <div class="mock-bar">app.easytrips.com/propuesta/roma-7-dias</div>
+        </div>
+        <div class="mock-body">
+          <div class="mock-left">
+            <div class="mock-left-title">Itinerario</div>
+            <div class="mock-left-sub">Roma · 7 días</div>
+            <div class="day-row"><div class="day-dot"></div><div><div class="day-label">Día 1</div><div class="day-name">Llegada · Trastévere</div></div></div>
+            <div class="day-row"><div class="day-dot"></div><div><div class="day-label">Día 2</div><div class="day-name">Coliseo · Foro Romano</div></div></div>
+            <div class="day-row"><div class="day-dot"></div><div><div class="day-label">Día 3</div><div class="day-name">Vaticano · Capilla Sixtina</div></div></div>
+            <div class="day-row"><div class="day-dot"></div><div><div class="day-label">Día 4</div><div class="day-name">Borghese · Piazza Navona</div></div></div>
+            <div class="day-row"><div class="day-dot"></div><div><div class="day-label">Día 5</div><div class="day-name">Mercados · Cocina local</div></div></div>
+            <div class="mock-add">+ Agregar día</div>
+          </div>
+          <div class="mock-right">
+            <div class="mock-right-head">
+              <div class="mock-eyebrow">PROPUESTA PERSONALIZADA</div>
+              <div class="mock-title">Tu aventura por Italia</div>
+              <div class="mock-meta">Roma · 7 días · 2 personas</div>
+            </div>
+            <div class="mock-days">
+              <div class="mock-day-card"><div class="mock-day-icon">✈</div><div><div class="mock-day-lbl">Día 1</div><div class="mock-day-text">Llegada a Fiumicino. Transfer al hotel en Trastévere.</div></div></div>
+              <div class="mock-day-card"><div class="mock-day-icon">🏛</div><div><div class="mock-day-lbl">Día 2</div><div class="mock-day-text">Tour guiado por el Coliseo y el Foro Romano.</div></div></div>
+              <div class="mock-day-card"><div class="mock-day-icon">⛪</div><div><div class="mock-day-lbl">Día 3</div><div class="mock-day-text">Visita a los Museos Vaticanos y la Capilla Sixtina.</div></div></div>
+            </div>
+            <div class="mock-price-bar"><span class="mock-price-lbl">Total por persona</span><span class="mock-price-val">USD 1.890</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Kanban -->
+    <div class="sol-divider">
+      <p>Y para que no pierdas el hilo de ningún cliente:</p>
+      <div class="kanban-shell">
+        <div class="kanban-chrome">
+          <span class="dot dot-r" style="width:9px;height:9px"></span>
+          <span class="dot dot-y" style="width:9px;height:9px"></span>
+          <span class="dot dot-g" style="width:9px;height:9px"></span>
+          <span>Clientes — Easy Trips</span>
+        </div>
+        <div class="kanban-grid">
+          <!-- col 1 -->
+          <div>
+            <div class="kb-col-head"><div class="kb-dot" style="background:#3B82F6"></div><span class="kb-title">Consulta recibida</span><span class="kb-count">2</span></div>
+            <div class="kb-card"><div class="kb-card-inner"><div class="kb-avatar" style="background:#EFF6FF;color:#3B82F6;border:1.5px solid #BFDBFE">FR</div><div><div class="kb-name">Familia Rodríguez</div><div class="kb-trip">Cancún · Jun</div></div></div></div>
+            <div class="kb-card"><div class="kb-card-inner"><div class="kb-avatar" style="background:#EFF6FF;color:#3B82F6;border:1.5px solid #BFDBFE">VT</div><div><div class="kb-name">Valentina Torres</div><div class="kb-trip">París · Jul</div></div></div></div>
+            <div class="kb-add">+ Agregar</div>
+          </div>
+          <!-- col 2 -->
+          <div>
+            <div class="kb-col-head"><div class="kb-dot" style="background:#F59E0B"></div><span class="kb-title">Propuesta enviada</span><span class="kb-count">2</span></div>
+            <div class="kb-card"><div class="kb-card-inner"><div class="kb-avatar" style="background:#FFFBEB;color:#F59E0B;border:1.5px solid #FDE68A">MG</div><div><div class="kb-name">Martín Guzmán</div><div class="kb-trip">Roma · Ago</div></div></div></div>
+            <div class="kb-card"><div class="kb-card-inner"><div class="kb-avatar" style="background:#FFFBEB;color:#F59E0B;border:1.5px solid #FDE68A">SH</div><div><div class="kb-name">Sofía Herrera</div><div class="kb-trip">Lisboa · Sep</div></div></div></div>
+            <div class="kb-add">+ Agregar</div>
+          </div>
+          <!-- col 3 -->
+          <div>
+            <div class="kb-col-head"><div class="kb-dot" style="background:#8B5CF6"></div><span class="kb-title">En negociación</span><span class="kb-count">1</span></div>
+            <div class="kb-card"><div class="kb-card-inner"><div class="kb-avatar" style="background:#F5F3FF;color:#8B5CF6;border:1.5px solid #DDD6FE">PM</div><div><div class="kb-name">Pablo Méndez</div><div class="kb-trip">Tokyo · Oct</div></div></div></div>
+            <div class="kb-add">+ Agregar</div>
+          </div>
+          <!-- col 4 -->
+          <div>
+            <div class="kb-col-head"><div class="kb-dot" style="background:#10B981"></div><span class="kb-title">Confirmado</span><span class="kb-count">2</span></div>
+            <div class="kb-card"><div class="kb-card-inner"><div class="kb-avatar" style="background:#ECFDF5;color:#10B981;border:1.5px solid #A7F3D0">AM</div><div><div class="kb-name">Ana Morales</div><div class="kb-trip">Grecia · May</div></div></div></div>
+            <div class="kb-card"><div class="kb-card-inner"><div class="kb-avatar" style="background:#ECFDF5;color:#10B981;border:1.5px solid #A7F3D0">DF</div><div><div class="kb-name">Diego Fernández</div><div class="kb-trip">NYC · Jun</div></div></div></div>
+            <div class="kb-add">+ Agregar</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BETA INCLUYE -->
+<section id="beta">
+  <div class="section-inner">
+    <p class="section-eyebrow">5 lugares</p>
+    <h2 class="section-h2">Los 5 lugares incluyen</h2>
+    <div class="beta-list">
+      <div class="beta-item">
+        <div class="beta-check"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <span>15 días de acceso completo a la plataforma</span>
+      </div>
+      <div class="beta-item">
+        <div class="beta-check"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <span>Onboarding personal con el fundador</span>
+      </div>
+      <div class="beta-item">
+        <div class="beta-check"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <span>Precio fundador al finalizar la beta</span>
+      </div>
+      <div class="beta-item">
+        <div class="beta-check"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <span>Influencia directa sobre el producto</span>
+      </div>
+      <div class="beta-item">
+        <div class="beta-check"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <span>Acceso al webinar de lanzamiento el 5 de junio</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- A QUIÉN BUSCAMOS -->
+<section id="buscamos">
+  <div class="section-inner">
+    <p class="section-eyebrow">Perfil</p>
+    <h2 class="section-h2">Buscamos agentes específicos</h2>
+    <div class="fit-grid">
+      <div class="fit-card fit-card-yes">
+        <div class="fit-head fit-head-yes">
+          <div class="fit-icon fit-icon-yes"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          BUSCAMOS A ALGUIEN QUE...
+        </div>
+        <div class="fit-row"><div class="fit-check"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="#D1FAE5" stroke-width="1.5"/><path d="M4.5 8L7 10.5L11.5 5.5" stroke="#10B981" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span>Es agente independiente con cartera propia</span></div>
+        <div class="fit-row"><div class="fit-check"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="#D1FAE5" stroke-width="1.5"/><path d="M4.5 8L7 10.5L11.5 5.5" stroke="#10B981" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span>Ya genera propuestas de forma regular</span></div>
+        <div class="fit-row"><div class="fit-check"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="#D1FAE5" stroke-width="1.5"/><path d="M4.5 8L7 10.5L11.5 5.5" stroke="#10B981" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span>Quiere diferenciarse con una presentación profesional</span></div>
+        <div class="fit-row"><div class="fit-check"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="#D1FAE5" stroke-width="1.5"/><path d="M4.5 8L7 10.5L11.5 5.5" stroke="#10B981" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span>Puede dar feedback honesto del producto</span></div>
+      </div>
+      <div class="fit-card fit-card-no">
+        <div class="fit-head fit-head-no">
+          <div class="fit-icon fit-icon-no"><svg width="8" height="8" viewBox="0 0 8 8" fill="none"><path d="M1 1L7 7M7 1L1 7" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+          ESTA BETA NO ES PARA...
+        </div>
+        <div class="fit-row"><div class="fit-check"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="#FEE2E2" stroke-width="1.5"/><path d="M5 5L11 11M11 5L5 11" stroke="#EF4444" stroke-width="1.5" stroke-linecap="round"/></svg></div><span>Agencias con estructura corporativa grande</span></div>
+        <div class="fit-row"><div class="fit-check"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="#FEE2E2" stroke-width="1.5"/><path d="M5 5L11 11M11 5L5 11" stroke="#EF4444" stroke-width="1.5" stroke-linecap="round"/></svg></div><span>Agentes que recién están comenzando</span></div>
+        <div class="fit-row"><div class="fit-check"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="#FEE2E2" stroke-width="1.5"/><path d="M5 5L11 11M11 5L5 11" stroke="#EF4444" stroke-width="1.5" stroke-linecap="round"/></svg></div><span>Fuera de Argentina (por ahora)</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FORMULARIO -->
+<section id="registro">
+  <div class="section-inner">
+    <div style="display:flex;justify-content:center;margin-bottom:36px">
+      <div class="cd-wrap-sm" id="cd-form"></div>
+    </div>
+
+    <p class="section-eyebrow">Registro</p>
+    <h2 class="section-h2" style="margin-bottom:12px">Registrate para el lanzamiento</h2>
+    <p class="form-subtitle">Completá el formulario y nos vemos el viernes 5 de junio a las 16hs.</p>
+
+    <div class="form-box" id="form-container">
+      <form id="reg-form" novalidate>
+        <div class="form-group">
+          <label class="form-label" for="f-name">Nombre completo</label>
+          <input class="form-input" type="text" id="f-name" placeholder="Tu nombre" autocomplete="name"/>
+          <p class="form-error" id="err-name" style="display:none">Ingresá tu nombre</p>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="f-email">Email</label>
+          <input class="form-input" type="email" id="f-email" placeholder="tu@email.com" autocomplete="email"/>
+          <p class="form-error" id="err-email" style="display:none">Email inválido</p>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="f-niche">Nicho principal</label>
+          <select class="form-input" id="f-niche">
+            <option value="">Seleccioná tu nicho</option>
+            <option value="europa">Italia / Europa</option>
+            <option value="disney">Disney y parques</option>
+            <option value="cruceros">Cruceros</option>
+            <option value="caribe">Caribe / Playas</option>
+            <option value="otro">Otro</option>
+          </select>
+          <p class="form-error" id="err-niche" style="display:none">Elegí tu nicho</p>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="f-qty">¿Cuántas propuestas armás por mes?</label>
+          <select class="form-input" id="f-qty">
+            <option value="">Elegí una opción</option>
+            <option value="1-3">1 a 3</option>
+            <option value="4-8">4 a 8</option>
+            <option value="9+">9 o más</option>
+          </select>
+          <p class="form-error" id="err-qty" style="display:none">Elegí una opción</p>
+        </div>
+        <div class="form-group" style="margin-bottom:28px">
+          <label class="form-label">¿Podés sumarte al lanzamiento en vivo el viernes 5/6 a las 16hs?</label>
+          <div class="radio-group">
+            <div class="radio-opt" data-val="yes" onclick="selectRadio(this)">
+              <div class="radio-circle"><div class="radio-dot"></div></div>
+              <span>Sí, ahí estaré</span>
+            </div>
+            <div class="radio-opt" data-val="no" onclick="selectRadio(this)">
+              <div class="radio-circle"><div class="radio-dot"></div></div>
+              <span>No puedo esa hora, pero me interesa igual</span>
+            </div>
+          </div>
+          <p class="form-error" id="err-attend" style="display:none">Elegí una opción</p>
+        </div>
+        <button type="submit" class="btn-gold" style="width:100%;justify-content:center;display:block;text-align:center;padding:15px 24px;font-size:15px">
+          Quiero mi lugar · Registrarme
+        </button>
+        <p class="form-note">Solo 5 lugares en la beta. El evento es el 5 de junio a las 16hs.</p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Easy<span>Trips</span></div>
+  <p class="footer-tag">Itinerarios que venden solos.</p>
+  <p class="footer-note">Beta 2026 · Solo para Argentina</p>
+</footer>
+
+<script>
+// ── COUNTDOWN ──
+const TARGET = new Date('2026-06-05T19:00:00Z'); // 16hs ARG = UTC-3
+
+function getTimeLeft() {
+  const diff = Math.max(0, TARGET - Date.now());
+  return {
+    d: Math.floor(diff / 86400000),
+    h: Math.floor(diff / 3600000) % 24,
+    m: Math.floor(diff / 60000) % 60,
+    s: Math.floor(diff / 1000) % 60,
+  };
+}
+
+function pad(n) { return String(n).padStart(2,'0'); }
+
+function buildCd(el, sm) {
+  const labels = sm
+    ? [['d','días'],['h','horas'],['m','min'],['s','seg']]
+    : [['d','días'],['h','horas'],['m','min'],['s','seg']];
+  el.innerHTML = labels.map(([k,l],i) => {
+    const sep = i < 3 ? `<span class="cd-sep">:</span>` : '';
+    return `<div class="cd-unit"><div class="cd-num" id="${el.id}-${k}">00</div><div class="cd-lbl">${l}</div></div>${sep}`;
+  }).join('');
+}
+
+function updateCd(el, t) {
+  const set = (k,v) => {
+    const el2 = document.getElementById(el.id+'-'+k);
+    if (el2 && el2.textContent !== v) { el2.textContent = v; el2.style.animation='none'; el2.offsetHeight; el2.style.animation=''; }
+  };
+  set('d', pad(t.d)); set('h', pad(t.h)); set('m', pad(t.m)); set('s', pad(t.s));
+}
+
+const cdHero = document.getElementById('cd-hero');
+const cdForm = document.getElementById('cd-form');
+buildCd(cdHero, false);
+buildCd(cdForm, true);
+
+function tick() {
+  const t = getTimeLeft();
+  updateCd(cdHero, t);
+  updateCd(cdForm, t);
+}
+tick();
+setInterval(tick, 1000);
+
+// ── RADIO BUTTONS ──
+let selectedAttend = '';
+function selectRadio(opt) {
+  document.querySelectorAll('.radio-opt').forEach(o => o.classList.remove('selected'));
+  opt.classList.add('selected');
+  selectedAttend = opt.dataset.val;
+  document.getElementById('err-attend').style.display = 'none';
+}
+
+// ── FORM SUBMIT ──
+document.getElementById('reg-form').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  let valid = true;
+
+  const name  = document.getElementById('f-name');
+  const email = document.getElementById('f-email');
+  const niche = document.getElementById('f-niche');
+  const qty   = document.getElementById('f-qty');
+
+  function showErr(id, show) {
+    document.getElementById(id).style.display = show ? 'block' : 'none';
+  }
+
+  if (!name.value.trim()) { name.classList.add('error'); showErr('err-name', true); valid = false; }
+  else { name.classList.remove('error'); showErr('err-name', false); }
+
+  const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRe.test(email.value.trim())) { email.classList.add('error'); showErr('err-email', true); valid = false; }
+  else { email.classList.remove('error'); showErr('err-email', false); }
+
+  if (!niche.value) { niche.classList.add('error'); showErr('err-niche', true); valid = false; }
+  else { niche.classList.remove('error'); showErr('err-niche', false); }
+
+  if (!qty.value) { qty.classList.add('error'); showErr('err-qty', true); valid = false; }
+  else { qty.classList.remove('error'); showErr('err-qty', false); }
+
+  if (!selectedAttend) { showErr('err-attend', true); valid = false; }
+  else { showErr('err-attend', false); }
+
+  if (!valid) return;
+  // Preparar payload JSON (Apps Script acepta POST con JSON en modo no-cors)
+  const GAS_URL = 'https://script.google.com/macros/s/AKfycbwxeEx8k8tkCGLTQxZ-u5030GGVXMM6OOP13_s9JyzhNsk8eiE2I0gXqER9iPgsMj-k/exec'; // reemplazá por la URL que termina en /exec
+
+  const formEl = document.getElementById('reg-form');
+  const payload = {
+    nombreCompleto: name.value.trim(),
+    email: email.value.trim(),
+    nichoPrincipal: niche.value,
+    propuestasPorMes: qty.value,
+    asisteEnVivo: selectedAttend
+  };
+
+  console.log('Payload enviado:', payload);
+
+  // Feedback: deshabilitar botón mientras se envía
+  const submitBtn = formEl.querySelector('button[type="submit"]');
+  const originalBtnText = submitBtn.textContent;
+  submitBtn.disabled = true;
+  submitBtn.textContent = 'Enviando...';
+
+  try {
+    await fetch(GAS_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: {
+        'Content-Type': 'text/plain;charset=utf-8'
+      },
+      body: JSON.stringify(payload)
+    });
+
+    // Si fetch no lanza error consideramos envío exitoso
+    try { formEl.reset(); } catch (err) { /* ignore */ }
+    selectedAttend = '';
+    document.querySelectorAll('.radio-opt').forEach(o => o.classList.remove('selected'));
+
+    const fc = document.getElementById('form-container');
+    fc.innerHTML = `
+      <div class="success-box">
+        <div class="success-icon">✓</div>
+        <div class="success-h">Listo.</div>
+        <p class="success-p">Te esperamos el <strong>5 de junio a las 16hs</strong>.</p>
+        <p class="success-sub">Revisá tu mail para los detalles del evento.</p>
+      </div>`;
+  } catch (err) {
+    console.error('Error enviando formulario:', err);
+    const existing = document.getElementById('err-submit-msg');
+    if (!existing) {
+      const msg = document.createElement('p');
+      msg.id = 'err-submit-msg';
+      msg.className = 'form-error';
+      msg.style.display = 'block';
+      msg.style.textAlign = 'center';
+      msg.textContent = 'Hubo un error al enviar. Por favor intentá de nuevo.';
+      formEl.appendChild(msg);
+    } else {
+      existing.style.display = 'block';
+    }
+  } finally {
+    submitBtn.disabled = false;
+    submitBtn.textContent = originalBtnText;
+  }
+});
+</script>
+</body>
+</html>
